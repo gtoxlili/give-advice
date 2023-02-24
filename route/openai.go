@@ -38,7 +38,7 @@ type registerBody struct {
 	Description string `json:"description" validate:"required"`
 }
 
-func (b *registerBody) Bind(r *http.Request) error {
+func (b *registerBody) Bind(_ *http.Request) error {
 	return validate.Struct(b)
 }
 
@@ -69,6 +69,8 @@ func inquiry(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/event-stream")
 	w.Header().Set("Connection", "keep-alive")
+	// nginx sse 支持
+	w.Header().Set("X-Accel-Buffering", "no")
 
 	id := chi.URLParam(r, "id")
 	obj, ok := registerCache.Get(id)
