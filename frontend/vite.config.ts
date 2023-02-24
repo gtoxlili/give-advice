@@ -34,7 +34,7 @@ export default defineConfig(env => {
             port: 3000,
             proxy: {
                 '/api': {
-                    target: 'http://localhost:16806',
+                    target: 'http://localhost:7458',
                     changeOrigin: true,
                 }
             }

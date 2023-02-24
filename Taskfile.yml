@@ -18,10 +18,9 @@ tasks:
         GOOS={{.GOOS}} GOARCH={{.GOARCH}} GOARM={{.GOARM}} GOMIPS={{.GOMIPS}} \
         CGO_ENABLED=0 \
         go build -trimpath -o ./dist/{{.BINARY_NAME}} \
-        -ldflags '-X "
-        github.com/gtoxlili/give-advice/openai.Token={{.OPENAI_TOKEN}}
-        github.com/gtoxlili/give-advice/deepl.Token={{.DEEPL_TOKEN}}
-        " -w -s -buildid="'
+        -ldflags "-X 'github.com/gtoxlili/give-advice/openai.Token={{.OPENAI_TOKEN}}' \
+        -X 'github.com/gtoxlili/give-advice/deepl.Token={{.DEEPL_TOKEN}}' \
+        -w -s -buildid="
       # - scp -r ./dist/{{.BINARY_NAME}} {{.REMOTE_ADDRESS}}
   build-frontend:
     cmds:

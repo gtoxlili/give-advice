@@ -32,7 +32,7 @@ func main() {
 		r.Route("/info", route.Info)
 	})
 
-	l, err := net.Listen("tcp", ":16806")
+	l, err := net.Listen("tcp", "127.0.0.1:7458")
 	if err != nil {
 		log.Fatalln(err)
 	}
