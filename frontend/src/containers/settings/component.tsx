@@ -77,7 +77,7 @@ export const ProjectLink = () => {
         font='semibold'
     >
         {translation("settings.second.project")}
-        <a href="https://github.com/gtoxlili/wechat-chatGPT"
+        <a href="https://github.com/gtoxlili/give-advice"
            target="_blank"
            rel="noreferrer"
            className='text-slate-500 hover:text-sky-700' title='Github'>
