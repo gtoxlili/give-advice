@@ -27,10 +27,12 @@ export default defineConfig(env => {
                     start_url: '/',
                     short_name: 'Give Advice',
                     name: 'Give Advice',
+                    theme_color: '#ffffff',
                 },
             })
         ],
         server: env.mode === 'development' ? {
+            host: '0.0.0.0',
             port: 3000,
             proxy: {
                 '/api': {
