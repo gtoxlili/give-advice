@@ -1,5 +1,5 @@
 # 🤖 GiveAdvice - AI Advice Generator
-![logo]("https://cdn.jsdelivr.net/gh/gtoxlili/give-advice/frontend/src/assets/logo.png")
+![logo](https://cdn.jsdelivr.net/gh/gtoxlili/give-advice/frontend/src/assets/logo.png)
 
 GiveAdvice is a project that aims to explore the capabilities of OpenAI's GPT-3 API in the field of AIGC (Artificial Intelligence Generated Content). The project is built using Go and React, and provides users with two main features:
 
