@@ -1,0 +1,26 @@
+
+.article-item {
+    transition-property: height;
+    transition-timing-function: ease-out;
+}
+
+.article-item-icon {
+    cursor: pointer;
+}
+
+
+.article-item-icon > svg {
+    width: 22px;
+    height: 22px;
+    color: #0369a1;
+}
+
+.article-item-body {
+    box-sizing: border-box;
+    padding: 16px 30px;
+}
+
+.question-textarea {
+    min-height: 72px;
+    max-height: 72px;
+}

@@ -1,0 +1,36 @@
+/*.button-select {*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*}*/
+
+.button-select-options {
+    height: 30px;
+    outline: 0;
+    display: block;
+}
+
+/*.button-select-options:first-child {*/
+/*    border-radius: 3px 0 0 3px;*/
+/*}*/
+
+/*.button-select-options:last-child {*/
+/*    border-radius: 0 3px 3px 0;*/
+/*    border-right: 1px solid $color-primary-lightly;*/
+/*}*/
+
+/*.button-select-options.actived {*/
+/*    background: $color-primary;*/
+/*    color: $color-white;*/
+/*    border-color: $color-primary;*/
+/*    box-shadow: 0 2px 5px rgba($color: $color-primary, $alpha: 0.5);*/
+
+/*    &:active {*/
+/*        box-shadow: none;*/
+/*    }*/
+/*}*/
+
+.button-select-options {
+    transition-property: font-weight, color, line-height, font-size;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+}

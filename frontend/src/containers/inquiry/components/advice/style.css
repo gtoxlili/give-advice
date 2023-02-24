@@ -1,0 +1,29 @@
+
+.advice-item {
+    transition-property: height;
+    transition-timing-function: ease-out;
+}
+
+.advice-item-icon {
+    cursor: pointer;
+}
+
+
+.advice-item-icon > svg {
+    width: 22px;
+    height: 22px;
+    color: #0369a1;
+}
+
+.advice-item-body {
+    box-sizing: border-box;
+    max-width: 768px;
+    margin: 0 auto;
+    padding: 45px;
+}
+
+@media (max-width: 768px) {
+    .advice-item-body {
+        padding: 16px;
+    }
+}

@@ -1,0 +1,32 @@
+.input-text {
+    display: inline-block;
+    height: 30px;
+    width: 100%;
+    padding: 0 28px 0 10px;
+    font-size: 14px;
+    color: rgba(7, 89, 133, 0.6);
+    border-radius: 3px;
+    border: 1px solid rgb(209 213 219);
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+    transition-property: border-color, color, box-shadow;
+}
+
+.input-text:focus {
+    outline: 0;
+    color: #075985;
+    border-color: rgba(7, 89, 133, 0.5);
+    caret-color: #075985;
+}
+
+.suffixIcon {
+    right: 4px;
+    height: 100%;
+    position: absolute;
+    display: flex;
+    align-items: center;
+}
+
+.input-text::placeholder {
+    font-weight: 500;
+}

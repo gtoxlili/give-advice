@@ -1,0 +1,23 @@
+@media (max-width: 768px) {
+    .app-container {
+        margin: 0 12px;
+        height: calc(100vh - 64px);
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .app-container::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+
+@media (min-width: 768px) {
+    .app-container {
+        height: calc(100vh - 88px);
+    }
+
+    .app {
+        padding: 0 30px;
+    }
+}
+

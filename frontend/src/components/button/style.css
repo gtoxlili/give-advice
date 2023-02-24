@@ -1,0 +1,34 @@
+.btn {
+    height: 36px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border-width: 1px;
+    border-style: solid;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition-property: transform, background-color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+.btn:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+.btn:hover:not(:disabled) {
+    background-color: var(--hover-bg-color) !important;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn > svg {
+    margin-left: 1rem;
+    margin-right: 0.125rem;
+    width: 16px;
+    height: 16px;
+}
+

@@ -1,0 +1,31 @@
+
+.sidebar {
+    display: flex;
+    flex-direction: row;
+    height: 64px;
+    align-items: center;
+}
+
+.sidebar-logo {
+    height: 64px;
+    width: 64px;
+}
+
+/*移动端适配*/
+@media (max-width: 768px) {
+    .sidebar {
+        margin: 0 16px;
+    }
+
+    .sidebar-logo {
+        height: 42px;
+        width: 42px;
+    }
+}
+
+/*PC端适配*/
+@media (min-width: 768px) {
+    .sidebar {
+        margin-top: 24px;
+    }
+}

@@ -1,0 +1,41 @@
+version: '3'
+
+vars:
+  BINARY_NAME: give-advice
+  OPENAI_TOKEN:
+  DEEPL_TOKEN:
+  REMOTE_ADDRESS: gtoxlili@ssh.gtio.work:/home/gtoxlili/GoServer
+
+tasks:
+  clean:
+    cmds:
+      - rm -rf dist
+      - mkdir -p dist
+  build:
+    label: build-{{.TASK}}
+    cmds:
+      - |
+        GOOS={{.GOOS}} GOARCH={{.GOARCH}} GOARM={{.GOARM}} GOMIPS={{.GOMIPS}} \
+        CGO_ENABLED=0 \
+        go build -trimpath -o ./dist/{{.BINARY_NAME}} \
+        -ldflags '-X "
+        github.com/gtoxlili/give-advice/openai.Token={{.OPENAI_TOKEN}}
+        github.com/gtoxlili/give-advice/deepl.Token={{.DEEPL_TOKEN}}
+        " -w -s -buildid="'
+      # - scp -r ./dist/{{.BINARY_NAME}} {{.REMOTE_ADDRESS}}
+  build-frontend:
+    cmds:
+      - cd frontend && rm -rf dist && pnpm run build
+  linux-amd64:
+    cmds:
+      - task: build
+        vars: {
+          TASK: "{{.TASK}}",
+          GOOS: linux,
+          GOARCH: amd64
+        }
+  default:
+    cmds:
+      - task: clean
+      - task: build-frontend
+      - task: linux-amd64

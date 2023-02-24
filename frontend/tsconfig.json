@@ -1,0 +1,45 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ],
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@assets": ["src/assets"],
+      "@assets/*": ["src/assets/*"],
+      "@lib": ["src/lib"],
+      "@lib/*": ["src/lib/*"],
+      "@components": ["src/components"],
+      "@components/*": ["src/components/*"],
+      "@containers": ["src/containers"],
+      "@containers/*": ["src/containers/*"],
+      "@i18n": ["src/i18n"],
+      "@i18n/*": ["src/i18n/*"],
+      "@stores": ["src/stores"],
+      "@stores/*": ["src/stores/*"],
+      "@styles": ["src/styles"],
+      "@styles/*": ["src/styles/*"],
+    }
+  },
+  "include": [
+    "src",
+    "windi.config.ts",
+    "vite.config.ts"
+  ],
+}

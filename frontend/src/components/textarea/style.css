@@ -1,0 +1,32 @@
+.textarea-text {
+    display: inline-block;
+    width: 100%;
+    min-height: 96px;
+    padding: 5px 10px;
+    font-size: 14px;
+    color: rgba(7, 89, 133, 0.6);
+    border-radius: 3px;
+    border: 1px solid rgb(209 213 219);
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    transition-property: border-color, color, box-shadow;
+}
+
+.textarea-text::-webkit-scrollbar-thumb {
+    background: rgba(7, 89, 133, 0.6);
+}
+
+.textarea-text:focus {
+    outline: 0;
+    color: #075985;
+    border-color: rgba(7, 89, 133, 0.5);
+    caret-color: #075985;
+}
+
+.textarea-text:focus::-webkit-scrollbar-thumb {
+    background: #075985;
+}
+
+.textarea-text::placeholder {
+    font-weight: 500;
+}
