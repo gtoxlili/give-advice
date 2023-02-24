@@ -4,7 +4,7 @@ vars:
   BINARY_NAME: give-advice
   OPENAI_TOKEN:
   DEEPL_TOKEN:
-  REMOTE_ADDRESS: gtoxlili@ssh.gtio.work:/home/gtoxlili/GoServer
+  REMOTE_ADDRESS: 
 
 tasks:
   clean:
