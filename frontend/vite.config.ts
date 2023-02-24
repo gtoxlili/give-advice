@@ -30,7 +30,7 @@ export default defineConfig(env => {
                 },
             })
         ],
-        server: {
+        server: env.mode === 'development' ? {
             port: 3000,
             proxy: {
                 '/api': {
@@ -38,7 +38,7 @@ export default defineConfig(env => {
                     changeOrigin: true,
                 }
             }
-        },
+        } : {},
         base: './',
         build: {
             reportCompressedSize: false,
