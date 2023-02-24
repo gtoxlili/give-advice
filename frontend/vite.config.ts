@@ -20,7 +20,7 @@ export default defineConfig(env => {
                 injectRegister: 'inline', // 注入到html中
                 manifest: {
                     icons: [{
-                        src: '//cdn.jsdelivr.net/gh/gtoxlili/lazy-notes/frontend/src/assets/logo.png',
+                        src: '//cdn.jsdelivr.net/gh/gtoxlili/give-advice/frontend/src/assets/logo.png',
                         sizes: '128x128',
                         type: 'image/png',
                     }],

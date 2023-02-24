@@ -12,8 +12,6 @@ func Assets(fs embed.FS) func(r chi.Router) {
 	return func(r chi.Router) {
 		h := assets(fs)
 		r.Handle("/", h)
-		r.Handle("/index.html", h)
-		r.Handle("/icon.ico", h)
 		r.Handle("/sw.js", h)
 		r.Handle("/manifest.webmanifest", h)
 		r.Handle("/workbox-*", h)
