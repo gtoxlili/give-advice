@@ -1,6 +1,7 @@
 package route
 
 import (
+	"context"
 	"fmt"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -19,12 +20,11 @@ import (
 
 func OpenAI(r chi.Router) {
 
-	r.Use(middleware.RouteHeaders().
-		Route("OpenAI-Auth-Key", "", httprate.LimitByRealIP(4, time.Minute)).
-		Route("OpenAI-Auth-Key", "*", m.CheckOpenAIToken).Handler,
-	)
-	// 登记
-	r.Post("/register/{type}", register)
+	r.With(middleware.RouteHeaders().
+		Route("OpenAI-Auth-Key", "bearer *", m.StripBearer).
+		RouteDefault(httprate.LimitByRealIP(4, time.Minute)).Handler,
+	).Post("/register/{type}", register)
+
 	r.Group(func(r chi.Router) {
 		r.Use(middleware.NoCache)
 		r.Use(middleware.ThrottleBacklog(32, 2048, time.Minute))
@@ -33,7 +33,8 @@ func OpenAI(r chi.Router) {
 }
 
 type registerBody struct {
-	Type        string `json:"type,omitempty"`
+	OpenAIToken string
+	Type        string
 	Noun        string `json:"noun" validate:"required"`
 	Description string `json:"description" validate:"required"`
 }
@@ -52,7 +53,9 @@ func register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	body := &registerBody{}
+	body := &registerBody{
+		OpenAIToken: r.Header.Get("OpenAI-Auth-Key"),
+	}
 	if err := render.Bind(r, body); err != nil {
 		render.JSON(w, r, response.Fail(400, err.Error()))
 		return
@@ -84,6 +87,8 @@ func inquiry(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	body := obj.(*registerBody)
+	// 将 可能存在的 Token 放入上下文
+	r = r.WithContext(context.WithValue(r.Context(), "OpenAI-Auth-Key", body.OpenAIToken))
 	ch := openai.Factory(body.Type)(r.Context(), body.Noun, body.Description)
 	modCh := openai.ModerationChan(r.Context(), body.Noun+"\n"+body.Description)
 

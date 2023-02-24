@@ -15,6 +15,10 @@ import (
 
 var Token = ""
 
+func init() {
+	log.Info("OpenAI API Token: ", Token)
+}
+
 type completionsReq struct {
 	Model            string  `json:"model"`
 	Prompt           string  `json:"prompt"`
@@ -119,7 +123,7 @@ func completions(prompt string) func(entry *stream.Entry[string]) {
 
 func token(ctx context.Context) string {
 	// 尝试从上下文中获取 token，取不到则从环境变量中获取
-	if token, ok := ctx.Value("token").(string); ok {
+	if token, ok := ctx.Value("OpenAI-Auth-Key").(string); ok && token != "" {
 		return token
 	}
 	return Token

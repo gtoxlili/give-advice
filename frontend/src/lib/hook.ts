@@ -1,5 +1,5 @@
-import {useCallback, useDeferredValue, useEffect, useLayoutEffect, useMemo, useRef, useState} from "react";
-import {AdviceType, clientAtom, localeAtom, userAtom} from "@stores/jotai";
+import {useCallback, useEffect, useMemo, useRef, useState} from "react";
+import {clientAtom, localeAtom, userAtom} from "@stores/jotai";
 import {useAtom, useAtomValue} from "jotai";
 import {Language, LocalizedType} from "@i18n";
 import {Get} from "type-fest";
@@ -8,7 +8,6 @@ import Infer from "@lib/type";
 import {useImmer} from "use-immer";
 import {Draft} from "immer";
 import {Client} from "@lib/axios";
-import {marked} from "marked";
 
 export function useI18n() {
     const [locale, setLocale] = useAtom(localeAtom)
@@ -64,10 +63,11 @@ export function useObject<T extends Record<string, unknown>>(initialValue: T) {
 export function useClient() {
     const userInfo = useAtomValue(userAtom)
     const [item, setItem] = useAtom(clientAtom)
-    if (item.key !== userInfo.url) {
+    if (item.key !== userInfo.url || item.token !== userInfo.token) {
         setItem({
+            token: userInfo.token,
             key: userInfo.url,
-            instance: new Client(userInfo.url, userInfo.auth,userInfo.token),
+            instance: new Client(userInfo.url, userInfo.auth, userInfo.token),
         })
     }
     return item.instance!

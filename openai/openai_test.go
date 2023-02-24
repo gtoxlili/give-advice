@@ -1,6 +1,7 @@
 package openai
 
 import (
+	"context"
 	"fmt"
 	json "github.com/bytedance/sonic"
 	"strings"
@@ -8,7 +9,7 @@ import (
 )
 
 func TestOpenai(t *testing.T) {
-	err := Moderation("Sample text goes here")
+	err := Moderation(context.Background(), "Sample text goes here")
 	if err != nil {
 		fmt.Println(err)
 	}

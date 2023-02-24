@@ -3,6 +3,7 @@ package deepl
 import (
 	"context"
 	json "github.com/bytedance/sonic"
+	log "github.com/sirupsen/logrus"
 	"io"
 	"net/http"
 	"net/url"
@@ -10,6 +11,10 @@ import (
 )
 
 var Token = ""
+
+func init() {
+	log.Info("Deepl API Token: ", Token)
+}
 
 type Option func(*url.Values)
 

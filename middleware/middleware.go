@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"context"
 	m "github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
 	"github.com/go-chi/render"
@@ -40,12 +39,12 @@ func Cors(origin ...string) func(next http.Handler) http.Handler {
 	}
 }
 
-// CheckOpenAIToken 检验 openAI Token 是否有效
-// TODO 以后再说
-func CheckOpenAIToken(next http.Handler) http.Handler {
+// StripBearer 去掉 OpenAI-Auth-Key 的 Bearer 前缀
+func StripBearer(next http.Handler) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {
-		// 将 Token 放入上下文
-		r.WithContext(context.WithValue(r.Context(), "token", r.Header.Get("OpenAI-Auth-Key")))
+		if auth := r.Header.Get("OpenAI-Auth-Key"); auth != "" {
+			r.Header.Set("OpenAI-Auth-Key", auth[7:])
+		}
 		next.ServeHTTP(w, r)
 	}
 	return http.HandlerFunc(fn)

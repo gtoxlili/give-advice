@@ -36,6 +36,7 @@ export const articleAtom = atomWithStorage<ArticleType[]>('article-records', [])
 // axios 实例
 export const clientAtom = atom({
     key: '',
+    token: '',
     instance: null as Client | null,
 })
 

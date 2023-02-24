@@ -19,7 +19,7 @@ export class Client {
     constructor(url: string, secret?: string, token?: string) {
         const headers = {
             Authorization: `Bearer ${secret}`,
-            "OpenAI-Auth-Key": `${token}`
+            "OpenAI-Auth-Key": token ? `Bearer ${token}` : ""
         }
         this.axiosClient = axios.create({
             baseURL: url,
