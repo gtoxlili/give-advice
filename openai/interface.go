@@ -3,9 +3,10 @@ package openai
 import (
 	"context"
 	"fmt"
-	"github.com/gtoxlili/give-advice/common/stream"
 	"strings"
 	"unicode"
+
+	"github.com/gtoxlili/give-advice/common/stream"
 )
 
 type AIFunc func(ctx context.Context, noun string, description string) <-chan stream.Result[string]
@@ -22,7 +23,7 @@ func Factory(typ string) AIFunc {
 }
 
 func GeneralAdvice(ctx context.Context, noun string, description string) <-chan stream.Result[string] {
-	prompt := fmt.Sprintf(detectLanguage(description, generalPrompt), noun, description)
+	prompt := fmt.Sprintf(detectLanguage(description, generalFormat), noun, description)
 	return stream.AsyncReflow(ctx, completions(prompt))
 }
 
@@ -33,7 +34,7 @@ func QuestionArticles(ctx context.Context, noun string, description string) <-ch
 	title := strings.TrimSpace(arr[0])
 	question := strings.TrimSpace(arr[1])
 
-	prompt := fmt.Sprintf(detectLanguage(question, articlePrompt), title, description, question)
+	prompt := fmt.Sprintf(detectLanguage(question, articleFormat), title, description, question)
 	return stream.AsyncReflow(ctx, completions(prompt))
 }
 
@@ -64,7 +65,7 @@ func detectLanguage(input string, format func(lang string) string) string {
 	}
 }
 
-func generalPrompt(lang string) string {
+func generalFormat(lang string) string {
 	switch lang {
 	case "Chinese":
 		return "请用中文通过以下的内容填充为一篇完整的%s，用 markdown 格式以分点叙述的形式输出：%s。"
@@ -75,7 +76,7 @@ func generalPrompt(lang string) string {
 	}
 }
 
-func articlePrompt(lang string) string {
+func articleFormat(lang string) string {
 	switch lang {
 	case "Chinese":
 		return "请阅读题为「%s」的文章\n'''\n%s\n'''\n然后用中文回答以下问题：%s。"

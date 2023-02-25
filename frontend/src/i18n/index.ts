@@ -1,8 +1,6 @@
 import en from './en'
 import zh from './zh'
 import ja from './ja'
-import Infer from "@lib/type";
-import {IsEqual} from "type-fest";
 
 export const Language = {
     en, zh, ja
@@ -10,12 +8,8 @@ export const Language = {
 
 export type Lang = keyof typeof Language
 
-type US = typeof Language.en
-type CN = typeof Language.zh
-
-
 // i18n 结构
-export type LocalizedType = CN
+export type LocalizedType = typeof Language.zh
 
 export function getDefaultLanguage(): Lang {
     for (const language of window.navigator.languages) {

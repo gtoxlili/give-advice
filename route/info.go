@@ -1,11 +1,12 @@
 package route
 
 import (
+	"net/http"
+	"sync/atomic"
+
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/render"
 	"github.com/gtoxlili/give-advice/domain/response"
-	"net/http"
-	"sync/atomic"
 )
 
 func Info(r chi.Router) {

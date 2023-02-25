@@ -1,6 +1,6 @@
 import React, {lazy, Suspense} from "react";
 import Sidebar from "@containers/sidebar";
-import {createBrowserRouter, createHashRouter, Outlet, RouterProvider} from "react-router-dom";
+import {createHashRouter, Outlet, RouterProvider} from "react-router-dom";
 import "./style.css";
 
 const Inquiry = lazy(() => import('@containers/inquiry'))

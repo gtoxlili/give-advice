@@ -4,13 +4,14 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"io"
+	"net/http"
+	"sync"
+
 	json "github.com/bytedance/sonic"
 	"github.com/gtoxlili/give-advice/common/fail"
 	"github.com/gtoxlili/give-advice/common/stream"
 	log "github.com/sirupsen/logrus"
-	"io"
-	"net/http"
-	"sync"
 )
 
 var Token = ""

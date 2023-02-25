@@ -2,12 +2,13 @@ package deepl
 
 import (
 	"context"
-	json "github.com/bytedance/sonic"
-	log "github.com/sirupsen/logrus"
 	"io"
 	"net/http"
 	"net/url"
 	"strings"
+
+	json "github.com/bytedance/sonic"
+	log "github.com/sirupsen/logrus"
 )
 
 var Token = ""

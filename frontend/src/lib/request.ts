@@ -1,7 +1,5 @@
 import {useDeferredValue, useLayoutEffect, useMemo, useRef, useState} from "react";
 import {marked} from "marked";
-import {useI18n} from "@lib/hook";
-import {Lang} from "@i18n";
 
 export function useInquiryReader(
     id: string | null,

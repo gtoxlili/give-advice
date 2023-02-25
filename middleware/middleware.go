@@ -1,12 +1,13 @@
 package middleware
 
 import (
+	"net/http"
+
 	m "github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
 	"github.com/go-chi/render"
 	"github.com/gtoxlili/give-advice/domain/response"
 	log "github.com/sirupsen/logrus"
-	"net/http"
 )
 
 func Logger(next http.Handler) http.Handler {

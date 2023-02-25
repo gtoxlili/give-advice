@@ -4,16 +4,17 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	json "github.com/bytedance/sonic"
 	"io"
 	"net/http"
+
+	json "github.com/bytedance/sonic"
 )
 
-//curl https://api.openai.com/v1/moderations \
-//-X POST \
-//-H "Content-Type: application/json" \
-//-H "Authorization: Bearer $OPENAI_API_KEY" \
-//-d '{"input": "Sample text goes here"}'
+// curl https://api.openai.com/v1/moderations \
+// -X POST \
+// -H "Content-Type: application/json" \
+// -H "Authorization: Bearer $OPENAI_API_KEY" \
+// -d '{"input": "Sample text goes here"}'
 
 type modRes struct {
 	Results []struct {

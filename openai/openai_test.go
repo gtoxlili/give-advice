@@ -3,9 +3,10 @@ package openai
 import (
 	"context"
 	"fmt"
-	json "github.com/bytedance/sonic"
 	"strings"
 	"testing"
+
+	json "github.com/bytedance/sonic"
 )
 
 func TestOpenai(t *testing.T) {

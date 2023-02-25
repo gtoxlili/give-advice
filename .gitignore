@@ -9,3 +9,5 @@ frontend/.idea
 frontend/node_modules
 frontend/dist
 frontend/pnpm-lock.yaml
+
+.vscode

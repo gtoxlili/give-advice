@@ -2,10 +2,11 @@ package route
 
 import (
 	"embed"
-	"github.com/go-chi/chi/v5"
-	log "github.com/sirupsen/logrus"
 	"io/fs"
 	"net/http"
+
+	"github.com/go-chi/chi/v5"
+	log "github.com/sirupsen/logrus"
 )
 
 func Assets(fs embed.FS) func(r chi.Router) {

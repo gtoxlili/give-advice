@@ -2,8 +2,9 @@ package stream
 
 import (
 	"context"
-	"github.com/gtoxlili/give-advice/common/pool"
 	"io"
+
+	"github.com/gtoxlili/give-advice/common/pool"
 )
 
 func ReadFlow(r io.Reader, end []byte, callback func([]byte) bool) error {
