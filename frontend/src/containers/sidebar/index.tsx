@@ -30,7 +30,7 @@ export default function Sidebar(props: SidebarProps) {
 
     const changeTab = useCallback((index: number) => {
         setTabIndex(index)
-        navigate(routes[index].path ?? '/')
+        navigate(routes[index].path ?? '/', {replace: true})
     }, [setTabIndex])
 
     return (
