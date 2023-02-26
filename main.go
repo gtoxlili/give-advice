@@ -19,7 +19,6 @@ func main() {
 	r := chi.NewRouter()
 
 	// 通用中间件
-	r.Use(middleware.Logger)
 	r.Use(middleware.Recover)
 	r.Use(middleware.Cors("*"))
 
@@ -28,6 +27,7 @@ func main() {
 
 	r.Route("/api", func(r chi.Router) {
 		// r.Use(auth.Authenticated)
+		r.Use(middleware.Logger)
 		r.Group(route.OpenAI)
 		r.Route("/deepl", route.Deepl)
 		r.Route("/info", route.Info)
