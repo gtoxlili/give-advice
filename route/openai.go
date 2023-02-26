@@ -23,7 +23,7 @@ func OpenAI(r chi.Router) {
 
 	r.With(middleware.RouteHeaders().
 		Route("OpenAI-Auth-Key", "bearer *", m.StripBearer).
-		RouteDefault(httprate.LimitByRealIP(4, time.Minute)).Handler,
+		RouteDefault(httprate.LimitByRealIP(2, time.Minute)).Handler,
 	).Post("/register/{type}", register)
 
 	r.Group(func(r chi.Router) {
