@@ -39,7 +39,7 @@ func translate(w http.ResponseWriter, r *http.Request) {
 		render.JSON(w, r, response.Fail(400, err.Error()))
 		return
 	}
-	text, err := deepl.Translate(r.Context(), body.Content, "EN", options...)
+	text, err := deepl.Translate(r.Context(), body.Content, target, options...)
 	if err != nil {
 		render.JSON(w, r, response.Fail(500, err.Error()))
 		return
