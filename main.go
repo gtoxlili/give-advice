@@ -10,6 +10,8 @@ import (
 	"github.com/gtoxlili/give-advice/middleware"
 	"github.com/gtoxlili/give-advice/route"
 	log "github.com/sirupsen/logrus"
+	"golang.org/x/net/http2"
+	"golang.org/x/net/http2/h2c"
 )
 
 //go:embed frontend/dist/*
@@ -33,12 +35,13 @@ func main() {
 		r.Route("/info", route.Info)
 	})
 
+	h2s := h2c.NewHandler(r, &http2.Server{})
 	l, err := net.Listen("tcp", "127.0.0.1:7458")
 	if err != nil {
 		log.Fatalln(err)
 	}
 	log.Infof("Server listening at %s", l.Addr())
-	if err = http.Serve(l, r); err != nil {
+	if err = http.Serve(l, h2s); err != nil {
 		log.Fatalln(err)
 	}
 
