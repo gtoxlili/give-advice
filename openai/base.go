@@ -104,6 +104,10 @@ func completions(prompt string) func(entry *stream.Entry[string]) {
 		err = stream.ReadFlow(resp.Body, []byte{'\n', '\n'},
 			func(msg []byte) bool {
 				if err := json.Unmarshal(msg[5:], res); err != nil {
+					// FinishReason 没有出现但返回了 [DONE] 的情况
+					if bytes.Contains(msg[5:], []byte("[DONE]")) {
+						return true
+					}
 					log.Warning(err.Error())
 					entry.Panic(err)
 				}

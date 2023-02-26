@@ -54,7 +54,7 @@ func Moderation(ctx context.Context, text string) error {
 	if res.Results[0].Flagged {
 		for k, v := range res.Results[0].Categories {
 			if v {
-				return fmt.Errorf("violation content：%s", k)
+				return fmt.Errorf("violation content: %s", k)
 			}
 		}
 	}
