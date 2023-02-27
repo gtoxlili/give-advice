@@ -23,7 +23,7 @@ import (
 func OpenAI(r chi.Router) {
 	r.Group(func(r chi.Router) {
 		r.Use(middleware.RouteHeaders().
-			Route("OpenAI-Auth-Key", "bearer *", m.StripBearer).
+			Route("OpenAI-Auth-Key", "bearer *", m.CustomOpenAIToken).
 			RouteDefault(
 				httprate.Limit(2, time.Minute,
 					httprate.WithKeyFuncs(rate.LimitKeyFunc),

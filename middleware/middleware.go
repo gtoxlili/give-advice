@@ -41,10 +41,11 @@ func Cors(origin ...string) func(next http.Handler) http.Handler {
 	}
 }
 
-// StripBearer 去掉 OpenAI-Auth-Key 的 Bearer 前缀
-func StripBearer(next http.Handler) http.Handler {
+func CustomOpenAIToken(next http.Handler) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {
 		if auth := r.Header.Get("OpenAI-Auth-Key"); auth != "" {
+			token, _ := r.Context().Value("Token").(string)
+			log.Infof("user [%s] use custom token", token)
 			r.Header.Set("OpenAI-Auth-Key", auth[7:])
 		}
 		next.ServeHTTP(w, r)
@@ -58,7 +59,7 @@ func IncrVisitCount(next http.Handler) http.Handler {
 		if token, ok := r.Context().Value("Token").(string); ok {
 			go func() {
 				val, _ := redis.Default().IncrVisitCount(r.Context(), token)
-				log.Infof("%s visit count: %d", token, val)
+				log.Infof("[%s] visit count: %d", token, val)
 			}()
 			next.ServeHTTP(w, r)
 		} else {

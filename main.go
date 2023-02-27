@@ -29,12 +29,14 @@ func main() {
 	r.Group(route.Assets(assets))
 
 	r.Route("/api", func(r chi.Router) {
-		// r.Use(auth.Authenticated)
-		r.Use(rate.TokenIntoCtx)
-		r.Use(middleware.Logger)
-		r.Group(route.OpenAI)
-		r.Route("/deepl", route.Deepl)
 		r.Route("/info", route.Info)
+		r.Group(func(r chi.Router) {
+			// r.Use(auth.Authenticated)
+			r.Use(rate.TokenIntoCtx)
+			r.Use(middleware.Logger)
+			r.Group(route.OpenAI)
+			r.Route("/deepl", route.Deepl)
+		})
 	})
 
 	h2s := h2c.NewHandler(r, &http2.Server{})
