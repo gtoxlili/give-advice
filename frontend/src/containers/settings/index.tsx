@@ -1,5 +1,5 @@
 import React, {ReactNode} from "react";
-import Footer from "@containers/inquiry/components/footer";
+import Footer from "@containers/footer";
 import {LanguageSelect, OwnToken, ProjectLink} from "@containers/settings/component";
 import {useI18n} from "@lib/hook";
 

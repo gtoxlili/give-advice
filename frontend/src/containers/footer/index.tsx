@@ -1,5 +1,4 @@
 import React from 'react'
-import "./style.css"
 import {useI18n} from "@lib/hook";
 import {useUserCount} from "@stores/swr";
 

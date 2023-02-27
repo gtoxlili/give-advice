@@ -15,16 +15,25 @@ import (
 	"github.com/gtoxlili/give-advice/common/validate"
 	"github.com/gtoxlili/give-advice/domain/response"
 	m "github.com/gtoxlili/give-advice/middleware"
+	"github.com/gtoxlili/give-advice/middleware/rate"
 	"github.com/gtoxlili/give-advice/openai"
 	"github.com/jaevor/go-nanoid"
 )
 
 func OpenAI(r chi.Router) {
-
-	r.With(middleware.RouteHeaders().
-		Route("OpenAI-Auth-Key", "bearer *", m.StripBearer).
-		RouteDefault(httprate.LimitByRealIP(2, time.Minute)).Handler,
-	).Post("/register/{type}", register)
+	r.Group(func(r chi.Router) {
+		r.Use(middleware.RouteHeaders().
+			Route("OpenAI-Auth-Key", "bearer *", m.StripBearer).
+			RouteDefault(
+				httprate.Limit(2, time.Minute,
+					httprate.WithKeyFuncs(rate.LimitKeyFunc),
+					httprate.WithLimitHandler(rate.ExceededHandler(time.Minute)),
+				),
+			).Handler,
+		)
+		r.Use(m.IncrVisitCount)
+		r.Post("/register/{type}", register)
+	})
 
 	r.Group(func(r chi.Router) {
 		r.Use(middleware.NoCache)
@@ -56,16 +65,15 @@ func register(w http.ResponseWriter, r *http.Request) {
 
 	body := &registerBody{
 		OpenAIToken: r.Header.Get("OpenAI-Auth-Key"),
+		Type:        typ,
 	}
 	if err := render.Bind(r, body); err != nil {
 		render.JSON(w, r, response.Fail(400, err.Error()))
 		return
 	}
 
-	body.Type = typ
 	nanoID := nanoIdGenerator()
 	registerCache.Set(nanoID, body)
-	Count.Add(1) // TODO 先做简单处理 拿个原子存一下
 	render.JSON(w, r, response.Ok(render.M{"id": nanoID}))
 }
 

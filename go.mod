@@ -3,7 +3,7 @@ module github.com/gtoxlili/give-advice
 go 1.20
 
 require (
-	github.com/bytedance/sonic v1.8.0
+	github.com/bytedance/sonic v1.8.2
 	github.com/go-chi/chi/v5 v5.0.8
 	github.com/go-chi/cors v1.2.1
 	github.com/go-chi/httprate v0.7.1
@@ -12,14 +12,16 @@ require (
 	github.com/go-playground/universal-translator v0.18.1
 	github.com/go-playground/validator/v10 v10.11.2
 	github.com/jaevor/go-nanoid v1.3.0
+	github.com/redis/go-redis/v9 v9.0.2
 	github.com/sirupsen/logrus v1.9.0
-	golang.org/x/net v0.5.0
+	golang.org/x/net v0.7.0
 )
 
 require (
 	github.com/ajg/form v1.5.1 // indirect
-	github.com/cespare/xxhash/v2 v2.1.2 // indirect
+	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20221115062448-fe3a3abad311 // indirect
+	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/klauspost/cpuid/v2 v2.0.9 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect

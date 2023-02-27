@@ -4,7 +4,7 @@ import Header from "@containers/inquiry/components/header";
 
 import {AdviceType as A} from "@stores/jotai";
 import {useImmer} from "use-immer";
-import Footer from "@containers/inquiry/components/footer";
+import Footer from "@containers/footer";
 import {useLocation} from "react-router-dom";
 import {InquiryType} from "@containers/app";
 import Advice from "@containers/inquiry/components/advice";

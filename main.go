@@ -8,6 +8,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	_ "github.com/gtoxlili/give-advice/log"
 	"github.com/gtoxlili/give-advice/middleware"
+	"github.com/gtoxlili/give-advice/middleware/rate"
 	"github.com/gtoxlili/give-advice/route"
 	log "github.com/sirupsen/logrus"
 	"golang.org/x/net/http2"
@@ -29,6 +30,7 @@ func main() {
 
 	r.Route("/api", func(r chi.Router) {
 		// r.Use(auth.Authenticated)
+		r.Use(rate.TokenIntoCtx)
 		r.Use(middleware.Logger)
 		r.Group(route.OpenAI)
 		r.Route("/deepl", route.Deepl)
