@@ -27,7 +27,7 @@ func OpenAI(r chi.Router) {
 			RouteDefault(
 				httprate.Limit(2, time.Minute,
 					httprate.WithKeyFuncs(rate.LimitKeyFunc),
-					httprate.WithLimitHandler(rate.ExceededHandler(time.Minute)),
+					httprate.WithLimitHandler(rate.ExceededHandler),
 				),
 			).Handler,
 		)

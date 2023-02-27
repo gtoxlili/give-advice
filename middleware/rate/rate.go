@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"time"
 
 	"github.com/go-chi/render"
 	"github.com/gtoxlili/give-advice/domain/response"
@@ -22,11 +21,9 @@ func LimitKeyFunc(r *http.Request) (string, error) {
 	return "", fmt.Errorf("token not found")
 }
 
-func ExceededHandler(retry time.Duration) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		// 整数
-		render.JSON(w, r, response.Fail(429, fmt.Sprintf("Rate limit exceeded, retry in %.0f seconds", retry.Seconds())))
-	}
+func ExceededHandler(w http.ResponseWriter, r *http.Request) {
+	retryAfter := w.Header().Get("Retry-After")
+	render.JSON(w, r, response.Fail(429, fmt.Sprintf("Rate limit exceeded, retry in %s minutes", retryAfter)))
 }
 
 func TokenIntoCtx(next http.Handler) http.Handler {
