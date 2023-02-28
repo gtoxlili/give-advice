@@ -55,11 +55,13 @@ func (f *Formatter) Format(entry *logrus.Entry) ([]byte, error) {
 
 	// 4. 所在方法 向右对其42个字符
 	if entry.HasCaller() {
+		fc := strings.Split(entry.Caller.Function, "/")
 		buffer.WriteString(
 			fmt.Sprintf(" (%s:%d %s)",
 				entry.Caller.File,
 				entry.Caller.Line,
-				entry.Caller.Function,
+				// 去掉包名 */funcName
+				fc[len(fc)-1],
 			))
 		buffer.WriteString(" :")
 	}
