@@ -2,12 +2,10 @@ package deepl
 
 import (
 	"context"
-	"io"
-	"net/http"
 	"net/url"
 	"strings"
 
-	json "github.com/bytedance/sonic"
+	"github.com/gtoxlili/give-advice/common/ht"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -58,38 +56,23 @@ func Translate(ctx context.Context, text string, targetLang string, options ...O
 	return translate(ctx, v)
 }
 
-func translate(ctx context.Context, v url.Values) (string, error) {
-	body := strings.NewReader(v.Encode())
-	req, err := http.NewRequestWithContext(ctx, "POST", "https://api.deepl.com/v2/translate", body)
-	if err != nil {
-		return "", err
-	}
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-	req.Header.Set("Authorization", "DeepL-Auth-Key "+Token)
-	resp, err := http.DefaultClient.Do(req)
-	if err != nil {
-		return "", err
-	}
-	defer resp.Body.Close()
-	bytes, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return "", err
-	}
-	return parseTranslateResponse(bytes)
-}
-
-type translateResponse struct {
+type tranRes struct {
 	Translations []struct {
 		Text string `json:"text"`
 	} `json:"translations"`
 }
 
-func parseTranslateResponse(resp []byte) (string, error) {
-	tr := &translateResponse{}
-	if err := json.Unmarshal(resp, tr); err != nil {
+func translate(ctx context.Context, v url.Values) (string, error) {
+	res, err := ht.Request[tranRes](ctx,
+		"POST", "https://api.deepl.com/v2/translate", v,
+		ht.Header{
+			"Content-Type":  "application/x-www-form-urlencoded",
+			"Authorization": "DeepL-Auth-Key " + Token,
+		})
+	if err != nil {
 		return "", err
 	}
-	return tr.Translations[0].Text, nil
+	return res.Data.Translations[0].Text, nil
 }
 
 func IsValidLang(lang string) bool {

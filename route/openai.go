@@ -13,10 +13,10 @@ import (
 	"github.com/gtoxlili/give-advice/common/cache"
 	"github.com/gtoxlili/give-advice/common/unsafe"
 	"github.com/gtoxlili/give-advice/common/validate"
+	"github.com/gtoxlili/give-advice/components/openai"
 	"github.com/gtoxlili/give-advice/domain/response"
 	m "github.com/gtoxlili/give-advice/middleware"
 	"github.com/gtoxlili/give-advice/middleware/rate"
-	"github.com/gtoxlili/give-advice/openai"
 	"github.com/jaevor/go-nanoid"
 )
 

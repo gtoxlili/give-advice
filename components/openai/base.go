@@ -10,6 +10,7 @@ import (
 
 	json "github.com/bytedance/sonic"
 	"github.com/gtoxlili/give-advice/common/fail"
+	"github.com/gtoxlili/give-advice/common/ht"
 	"github.com/gtoxlili/give-advice/common/stream"
 	log "github.com/sirupsen/logrus"
 )
@@ -78,7 +79,7 @@ func completions(prompt string) func(entry *stream.Entry[string]) {
 
 		req.Header.Set("Authorization", "Bearer "+token(entry.Ctx))
 		req.Header.Set("Content-Type", "application/json")
-		resp, err := http.DefaultClient.Do(req)
+		resp, err := ht.Client.Do(req)
 		if err != nil {
 			log.Warning(err.Error())
 			entry.Panic(err)
@@ -97,7 +98,7 @@ func completions(prompt string) func(entry *stream.Entry[string]) {
 				return
 			}
 			log.Warning(resp.Status)
-			entry.Panic(fmt.Errorf("completions server anomalies status: %s", resp.Status))
+			entry.Panic(fmt.Errorf("[Completions] anomalies : %s", resp.Status))
 		}
 		res := &completionsRes{}
 		// 返回的是一个 stream，需要读取到最后一个 \n\n 为止

@@ -26,7 +26,7 @@ To install and run the program, please follow the instructions below:
 1. Clone the repository with git clone https://github.com/gtoxlili/give-advice.git.
 2. Install Go, Node.js, pnpm and task on your local machine.
 3. Fill in `OPENAI_TOKEN` in Taskfile.yml with your OpenAI API key.
-4. In a new terminal window, navigate to the client directory and run `task default && ./dist/give-advice`.
+4. In a new terminal window, navigate to the Client directory and run `task default && ./dist/give-advice`.
 5. Open a web browser and go to http://localhost:7458 to view the program.
 
 ## Contributing
