@@ -20,8 +20,8 @@ tasks:
         GOOS={{.GOOS}} GOARCH={{.GOARCH}} GOARM={{.GOARM}} GOMIPS={{.GOMIPS}} \
         CGO_ENABLED=0 \
         go build -trimpath -o ./dist/{{.BINARY_NAME}} \
-        -ldflags "-X 'github.com/gtoxlili/give-advice/openai.Token={{.OPENAI_TOKEN}}' \
-        -X 'github.com/gtoxlili/give-advice/deepl.Token={{.DEEPL_TOKEN}}' \
+        -ldflags "-X 'github.com/gtoxlili/give-advice/components/openai.Token={{.OPENAI_TOKEN}}' \
+        -X 'github.com/gtoxlili/give-advice/components/deepl.Token={{.DEEPL_TOKEN}}' \
         -X 'github.com/gtoxlili/give-advice/repository/redis.Addr={{.REDIS_ADDR}}' \
         -X 'github.com/gtoxlili/give-advice/repository/redis.Password={{.REDIS_PASSWORD}}' \
         -w -s -buildid="
