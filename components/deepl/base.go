@@ -2,6 +2,8 @@ package deepl
 
 import (
 	"context"
+	"fmt"
+	"net/http"
 	"net/url"
 	"strings"
 
@@ -63,13 +65,16 @@ type tranRes struct {
 }
 
 func translate(ctx context.Context, v url.Values) (string, error) {
-	res, err := ht.Request[tranRes](ctx,
-		"POST", "https://api.deepl.com/v2/translate", v,
+	res, err := ht.Post[tranRes](ctx,
+		"https://api.deepl.com/v2/translate", v,
 		ht.H{
 			"Authorization": "DeepL-Auth-Key " + Token,
 		})
 	if err != nil {
 		return "", err
+	}
+	if res.StatusCode != http.StatusOK {
+		return "", fmt.Errorf("[Translate] anomalies : %s", res.Status)
 	}
 	return res.Data.Translations[0].Text, nil
 }

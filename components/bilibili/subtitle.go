@@ -46,7 +46,7 @@ type videoInfo struct {
 
 func getVideoInfo(ctx context.Context, bvid string, pageIndex int) (string, error) {
 	// https://api.bilibili.com/x/web-interface/view?bvid="+bvid
-	res, err := ht.Request[videoInfo](ctx, "GET", "https://api.bilibili.com/x/web-interface/view?bvid="+bvid, nil, nil)
+	res, err := ht.Get[videoInfo](ctx, "https://api.bilibili.com/x/web-interface/view?bvid="+bvid, nil)
 	if err != nil {
 		return "", err
 	}
@@ -71,7 +71,7 @@ type playerInfo struct {
 
 func getPlayerInfo(ctx context.Context, aid, cid int) (string, error) {
 	// https://api.bilibili.com/x/player/v2?aid=821145051&cid=989862555
-	res, err := ht.Request[playerInfo](ctx, "GET", fmt.Sprintf("https://api.bilibili.com/x/player/v2?aid=%d&cid=%d", aid, cid), nil, nil)
+	res, err := ht.Get[playerInfo](ctx, fmt.Sprintf("https://api.bilibili.com/x/player/v2?aid=%d&cid=%d", aid, cid), nil)
 	if err != nil {
 		return "", err
 	}
@@ -92,7 +92,7 @@ type subtitle struct {
 }
 
 func getSubtitle(ctx context.Context, url string) (string, error) {
-	res, err := ht.Request[subtitle](ctx, "GET", "https:"+url, nil, nil)
+	res, err := ht.Get[subtitle](ctx, "https:"+url, nil)
 	if err != nil {
 		return "", err
 	}

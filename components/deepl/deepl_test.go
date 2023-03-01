@@ -9,6 +9,6 @@ import (
 func TestTranslate(t *testing.T) {
 	ctx := context.Background()
 	text := "hello world"
-	result, _ := Translate(ctx, text, "ZH")
-	fmt.Println(result)
+	result, err := Translate(ctx, text, "ZH")
+	fmt.Println(result, err)
 }

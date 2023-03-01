@@ -21,15 +21,29 @@ func WithTimeout(timeout time.Duration) {
 
 type H map[string]string
 
+type UnmarshalHandler[R any] func(*bytes.Buffer) R
+
 type Response[R any] struct {
 	Status     string
 	StatusCode int
 	Headers    http.Header
-	Data       *R
+	Data       R
 }
 
-func Request[R any](ctx context.Context, method string, url string, body any, headers H) (*Response[R], error) {
-	var bodyReader *bytes.Buffer
+func Get[R any](ctx context.Context, url string, headers H) (*Response[R], error) {
+	return request[R](ctx, http.MethodGet, url, nil, headers, nil)
+}
+
+func Post[R any](ctx context.Context, url string, body any, headers H) (*Response[R], error) {
+	return request[R](ctx, http.MethodPost, url, body, headers, nil)
+}
+
+func RequestWithUnmarshalHandler[R any](ctx context.Context, method string, url string, body any, headers H, unmarshalHandler UnmarshalHandler[R]) (*Response[R], error) {
+	return request[R](ctx, method, url, body, headers, unmarshalHandler)
+}
+
+func request[R any](ctx context.Context, method string, url string, body any, headers H, unmarshalHandler UnmarshalHandler[R]) (*Response[R], error) {
+	bodyReader := &bytes.Buffer{}
 
 	if body != nil {
 		bodyReader = pool.GetBuffer()
@@ -76,10 +90,9 @@ func Request[R any](ctx context.Context, method string, url string, body any, he
 		Headers:    resp.Header,
 		Status:     resp.Status,
 		StatusCode: resp.StatusCode,
-		Data:       new(R),
 	}
 	if resp.StatusCode != http.StatusOK {
-		return res, nil
+		return res, err
 	}
 
 	resReader := pool.GetBuffer()
@@ -90,10 +103,19 @@ func Request[R any](ctx context.Context, method string, url string, body any, he
 	if err != nil {
 		return nil, err
 	}
-	if err = json.Unmarshal(resReader.Bytes(), res.Data); err != nil {
-		return nil, err
+	res.Data, err = unmarshal[R](resReader, unmarshalHandler)
+	return res, err
+}
+
+func unmarshal[R any](src *bytes.Buffer, unmarshalHandler UnmarshalHandler[R]) (R, error) {
+	if unmarshalHandler != nil {
+		return unmarshalHandler(src), nil
 	}
-	return res, nil
+	res := new(R)
+	if err := json.Unmarshal(src.Bytes(), res); err != nil {
+		return *new(R), err
+	}
+	return *res, nil
 }
 
 func calcSize(src io.Reader) int {
