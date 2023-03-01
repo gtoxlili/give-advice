@@ -27,9 +27,8 @@ type modReq struct {
 
 func Moderation(ctx context.Context, text string) error {
 	res, err := ht.Request[modRes](ctx, "POST", "https://api.openai.com/v1/moderations",
-		&modReq{Input: text}, ht.Header{
+		&modReq{Input: text}, ht.H{
 			"Authorization": "Bearer " + token(ctx),
-			"Content-Type":  "application/json",
 		})
 	if err != nil {
 		return err

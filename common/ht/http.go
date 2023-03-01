@@ -1,6 +1,7 @@
 package ht
 
 import (
+	"bytes"
 	"context"
 	"io"
 	"net/http"
@@ -18,7 +19,7 @@ func WithTimeout(timeout time.Duration) {
 	Client.Timeout = timeout
 }
 
-type Header map[string]string
+type H map[string]string
 
 type Response[R any] struct {
 	Status     string
@@ -27,25 +28,35 @@ type Response[R any] struct {
 	Data       *R
 }
 
-func Request[R any](ctx context.Context, method string, url string, body any, headers Header) (*Response[R], error) {
-	bodyReader := pool.GetBuffer()
-	defer pool.PutBuffer(bodyReader)
-	// 直接传入 io.Reader
-	if r, ok := body.(io.Reader); ok {
-		_, err := io.Copy(bodyReader, r)
-		if err != nil {
-			return nil, err
+func Request[R any](ctx context.Context, method string, url string, body any, headers H) (*Response[R], error) {
+	var bodyReader *bytes.Buffer
+
+	if body != nil {
+		bodyReader = pool.GetBuffer()
+		defer pool.PutBuffer(bodyReader)
+		// 直接传入 io.Reader
+		if r, ok := body.(io.Reader); ok {
+			_, err := io.Copy(bodyReader, r)
+			if err != nil {
+				return nil, err
+			}
+			// 传入 url.Values
+		} else if v, ok := body.(interface{ Encode() string }); ok {
+			bodyReader.WriteString(v.Encode())
+			if _, ok = headers["Content-Type"]; !ok {
+				headers["Content-Type"] = "application/x-www-form-urlencoded"
+			}
+			// 传入 map[string]interface{} 或者 struct
+		} else {
+			bys, err := json.Marshal(body)
+			if err != nil {
+				return nil, err
+			}
+			bodyReader.Write(bys)
+			if _, ok = headers["Content-Type"]; !ok {
+				headers["Content-Type"] = "application/json"
+			}
 		}
-		// 传入 url.Values
-	} else if v, ok := body.(interface{ Encode() string }); ok {
-		bodyReader.WriteString(v.Encode())
-		// 传入 map[string]interface{} 或者 struct
-	} else if body != nil {
-		bys, err := json.Marshal(body)
-		if err != nil {
-			return nil, err
-		}
-		bodyReader.Write(bys)
 	}
 
 	req, err := http.NewRequestWithContext(ctx, method, url, bodyReader)

@@ -65,8 +65,7 @@ type tranRes struct {
 func translate(ctx context.Context, v url.Values) (string, error) {
 	res, err := ht.Request[tranRes](ctx,
 		"POST", "https://api.deepl.com/v2/translate", v,
-		ht.Header{
-			"Content-Type":  "application/x-www-form-urlencoded",
+		ht.H{
 			"Authorization": "DeepL-Auth-Key " + Token,
 		})
 	if err != nil {
