@@ -2,7 +2,6 @@ package ht
 
 import (
 	"context"
-	"fmt"
 	"io"
 	"net/http"
 	"time"
@@ -29,7 +28,6 @@ type Response[R any] struct {
 }
 
 func Request[R any](ctx context.Context, method string, url string, body any, headers Header) (*Response[R], error) {
-	fmt.Println("url:", url)
 	bodyReader := pool.GetBuffer()
 	defer pool.PutBuffer(bodyReader)
 	// 直接传入 io.Reader
