@@ -8,14 +8,8 @@ import (
 	"strings"
 
 	"github.com/gtoxlili/give-advice/common/ht"
-	log "github.com/sirupsen/logrus"
+	"github.com/gtoxlili/give-advice/constants"
 )
-
-var Token = ""
-
-func init() {
-	log.Info("Deepl API Token: ", Token)
-}
 
 type Option func(*url.Values)
 
@@ -68,7 +62,7 @@ func translate(ctx context.Context, v url.Values) (string, error) {
 	res, err := ht.Post[tranRes](ctx,
 		"https://api.deepl.com/v2/translate", v,
 		ht.H{
-			"Authorization": "DeepL-Auth-Key " + Token,
+			"Authorization": "DeepL-Auth-Key " + constants.CalcDeeplToken(ctx),
 		})
 	if err != nil {
 		return "", err
