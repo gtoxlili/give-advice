@@ -12,7 +12,6 @@ import (
 	"github.com/go-chi/render"
 	"github.com/gtoxlili/give-advice/common/cache"
 	"github.com/gtoxlili/give-advice/common/unsafe"
-	"github.com/gtoxlili/give-advice/common/validate"
 	"github.com/gtoxlili/give-advice/components/openai"
 	"github.com/gtoxlili/give-advice/domain/response"
 	m "github.com/gtoxlili/give-advice/middleware"
@@ -25,7 +24,7 @@ func OpenAI(r chi.Router) {
 		r.Use(middleware.RouteHeaders().
 			Route("OpenAI-Auth-Key", "bearer *", m.CustomOpenAIToken).
 			RouteDefault(
-				httprate.Limit(2, time.Minute,
+				httprate.Limit(10, 10*time.Minute,
 					httprate.WithKeyFuncs(rate.LimitKeyFunc),
 					httprate.WithLimitHandler(rate.ExceededHandler),
 				),
@@ -38,19 +37,13 @@ func OpenAI(r chi.Router) {
 	r.Group(func(r chi.Router) {
 		r.Use(middleware.NoCache)
 		r.Use(middleware.ThrottleBacklog(32, 2048, time.Minute))
-		r.Get("/inquiry/{id}", inquiry)
+		r.Get("/inquiry/{id}", completion)
 	})
 }
 
-type registerBody struct {
+type registerDto struct {
 	OpenAIToken string
-	Type        string
-	Noun        string `json:"noun" validate:"required"`
-	Description string `json:"description" validate:"required"`
-}
-
-func (b *registerBody) Bind(_ *http.Request) error {
-	return validate.Struct(b)
+	Data        openai.Adaptor
 }
 
 var nanoIdGenerator, _ = nanoid.Standard(21)
@@ -58,26 +51,24 @@ var registerCache = cache.New(cache.WithAge(120), cache.WithSize(512))
 
 func register(w http.ResponseWriter, r *http.Request) {
 	typ := chi.URLParam(r, "type")
-	if openai.Factory(typ) == nil {
+	adaptor := openai.Factory(typ)
+	if adaptor == nil {
 		render.JSON(w, r, response.Fail(400, "invalid type"))
 		return
 	}
-
-	body := &registerBody{
-		OpenAIToken: r.Header.Get("OpenAI-Auth-Key"),
-		Type:        typ,
-	}
-	if err := render.Bind(r, body); err != nil {
+	if err := render.Bind(r, adaptor); err != nil {
 		render.JSON(w, r, response.Fail(400, err.Error()))
 		return
 	}
-
 	nanoID := nanoIdGenerator()
-	registerCache.Set(nanoID, body)
+	registerCache.Set(nanoID, &registerDto{
+		OpenAIToken: r.Header.Get("OpenAI-Auth-Key"),
+		Data:        adaptor,
+	})
 	render.JSON(w, r, response.Ok(render.M{"id": nanoID}))
 }
 
-func inquiry(w http.ResponseWriter, r *http.Request) {
+func completion(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/event-stream")
 	w.Header().Set("Connection", "keep-alive")
@@ -95,11 +86,11 @@ func inquiry(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
-	body := obj.(*registerBody)
+	body := obj.(*registerDto)
 	// 将 可能存在的 Token 放入上下文
 	r = r.WithContext(context.WithValue(r.Context(), "OpenAI-Auth-Key", body.OpenAIToken))
-	ch := openai.Factory(body.Type)(r.Context(), body.Noun, body.Description)
-	modCh := openai.ModerationChan(r.Context(), body.Noun+"\n"+body.Description)
+	modCh := openai.ModerationChan(r.Context(), body.Data.Review())
+	ch := body.Data.Completion(r.Context())
 
 	for msg, flag := "", true; flag; {
 		flag = false

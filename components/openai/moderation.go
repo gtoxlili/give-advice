@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/gtoxlili/give-advice/common/ht"
+	"github.com/gtoxlili/give-advice/constants"
 )
 
 // curl https://api.openai.com/v1/moderations \
@@ -28,7 +29,7 @@ type modReq struct {
 func Moderation(ctx context.Context, text string) error {
 	res, err := ht.Post[modRes](ctx, "https://api.openai.com/v1/moderations",
 		&modReq{Input: text}, ht.H{
-			"Authorization": "Bearer " + token(ctx),
+			"Authorization": "Bearer " + constants.CalcOpenAIToken(ctx),
 		})
 	if err != nil {
 		return err
