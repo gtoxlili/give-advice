@@ -8,9 +8,10 @@ import (
 	"net/http"
 
 	json "github.com/bytedance/sonic"
-	"github.com/gtoxlili/give-advice/common/fail"
-	"github.com/gtoxlili/give-advice/common/stream"
-	"github.com/gtoxlili/give-advice/constants"
+	"github.com/gtoxlili/advice-hub/common/fail"
+	"github.com/gtoxlili/advice-hub/common/ht"
+	"github.com/gtoxlili/advice-hub/common/stream"
+	"github.com/gtoxlili/advice-hub/constants"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -61,7 +62,7 @@ func Do(msgItems []Message) func(entry *stream.Entry[string]) {
 		req.Header.Set("Content-Type", "application/json")
 		req.Header.Set("Authorization", "Bearer "+constants.CalcOpenAIToken(entry.Ctx))
 
-		resp, err := http.DefaultClient.Do(req)
+		resp, err := ht.Client.Do(req)
 		if err != nil {
 			log.Warning(err.Error())
 			entry.Panic(err)

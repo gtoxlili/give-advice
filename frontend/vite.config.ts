@@ -20,13 +20,13 @@ export default defineConfig(env => {
                 injectRegister: 'inline', // 注入到html中
                 manifest: {
                     icons: [{
-                        src: '//cdn.jsdelivr.net/gh/gtoxlili/give-advice/frontend/src/assets/logo.png',
+                        src: '//cdn.jsdelivr.net/gh/gtoxlili/advice-hub/frontend/src/assets/logo.png',
                         sizes: '128x128',
                         type: 'image/png',
                     }],
                     start_url: '/',
-                    short_name: 'Give Advice',
-                    name: 'Give Advice',
+                    short_name: 'AdviceHub',
+                    name: 'AdviceHub',
                     theme_color: '#ffffff',
                 },
             })

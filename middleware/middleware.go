@@ -6,8 +6,8 @@ import (
 	m "github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
 	"github.com/go-chi/render"
-	"github.com/gtoxlili/give-advice/domain/response"
-	"github.com/gtoxlili/give-advice/repository/redis"
+	"github.com/gtoxlili/advice-hub/domain/response"
+	"github.com/gtoxlili/advice-hub/repository/redis"
 	log "github.com/sirupsen/logrus"
 )
 

@@ -2,14 +2,14 @@ package ht
 
 import (
 	"fmt"
+	"net/url"
 	"testing"
-	"time"
 )
 
 func TestRequest(t *testing.T) {
-	{
-		defer fmt.Println(1111)
+	url, err := url.Parse("http://127.0.0.1:16503")
+	if err != nil {
+		t.Fatal(err)
 	}
-	time.Sleep(time.Second)
-	defer fmt.Println(2222)
+	fmt.Println(url)
 }

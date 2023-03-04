@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/gtoxlili/give-advice/common/ht"
-	"github.com/gtoxlili/give-advice/constants"
+	"github.com/gtoxlili/advice-hub/common/ht"
+	"github.com/gtoxlili/advice-hub/constants"
 )
 
 // curl https://api.openai.com/v1/moderations \

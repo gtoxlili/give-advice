@@ -1,12 +1,13 @@
 version: '3'
 
 vars:
-  BINARY_NAME: give-advice
+  BINARY_NAME: advice-hub
   OPENAI_TOKEN:
   DEEPL_TOKEN:
   REMOTE_ADDRESS:
   REDIS_ADDR:
   REDIS_PASSWORD:
+  PROXY_ADDR:
 
 tasks:
   clean:
@@ -20,10 +21,11 @@ tasks:
         GOOS={{.GOOS}} GOARCH={{.GOARCH}} GOARM={{.GOARM}} GOMIPS={{.GOMIPS}} \
         CGO_ENABLED=0 \
         go build -trimpath -o ./dist/{{.BINARY_NAME}} \
-        -ldflags "-X 'github.com/gtoxlili/give-advice/constants.OpenAIToken={{.OPENAI_TOKEN}}' \
-        -X 'github.com/gtoxlili/give-advice/constants.DeeplToken={{.DEEPL_TOKEN}}' \
-        -X 'github.com/gtoxlili/give-advice/constants.RedisAddr={{.REDIS_ADDR}}' \
-        -X 'github.com/gtoxlili/give-advice/constants.RedisPassword={{.REDIS_PASSWORD}}' \
+        -ldflags "-X 'github.com/gtoxlili/advice-hub/constants.OpenAIToken={{.OPENAI_TOKEN}}' \
+        -X 'github.com/gtoxlili/advice-hub/constants.DeeplToken={{.DEEPL_TOKEN}}' \
+        -X 'github.com/gtoxlili/advice-hub/constants.RedisAddr={{.REDIS_ADDR}}' \
+        -X 'github.com/gtoxlili/advice-hub/constants.RedisPassword={{.REDIS_PASSWORD}}' \
+        -X 'github.com/gtoxlili/advice-hub/constants.ProxyAddr={{.PROXY_ADDR}}' \
         -w -s -buildid="
       # - scp -r ./dist/{{.BINARY_NAME}} {{.REMOTE_ADDRESS}}
   build-frontend:

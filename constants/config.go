@@ -11,6 +11,7 @@ var (
 	OpenAIToken   = ""
 	RedisAddr     = ""
 	RedisPassword = ""
+	ProxyAddr     = ""
 )
 
 func init() {
@@ -18,6 +19,7 @@ func init() {
 	log.Info("OpenAI API Token: ", OpenAIToken)
 	log.Info("Redis Addr: ", RedisAddr)
 	log.Info("Redis Password: ", RedisPassword)
+	log.Info("Proxy Addr: ", ProxyAddr)
 }
 
 func CalcDeeplToken(ctx context.Context) string {

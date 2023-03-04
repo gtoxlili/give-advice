@@ -1,4 +1,4 @@
-module github.com/gtoxlili/give-advice
+module github.com/gtoxlili/advice-hub
 
 go 1.20
 

@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/gtoxlili/give-advice/common/ht"
+	"github.com/gtoxlili/advice-hub/common/ht"
 )
 
 var (

@@ -7,7 +7,7 @@ import (
 	"strconv"
 
 	"github.com/go-chi/render"
-	"github.com/gtoxlili/give-advice/domain/response"
+	"github.com/gtoxlili/advice-hub/domain/response"
 )
 
 func Token(r *http.Request) (string, error) {

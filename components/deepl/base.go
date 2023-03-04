@@ -7,8 +7,8 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/gtoxlili/give-advice/common/ht"
-	"github.com/gtoxlili/give-advice/constants"
+	"github.com/gtoxlili/advice-hub/common/ht"
+	"github.com/gtoxlili/advice-hub/constants"
 )
 
 type Option func(*url.Values)

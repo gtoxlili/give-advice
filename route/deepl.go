@@ -5,16 +5,16 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/render"
-	"github.com/gtoxlili/give-advice/common/validate"
-	"github.com/gtoxlili/give-advice/components/deepl"
-	"github.com/gtoxlili/give-advice/domain/response"
+	"github.com/gtoxlili/advice-hub/common/validate"
+	"github.com/gtoxlili/advice-hub/components/deepl"
+	"github.com/gtoxlili/advice-hub/domain/response"
 )
 
 type translateBody struct {
 	Content string `json:"content" validate:"required"`
 }
 
-func (t *translateBody) Bind(r *http.Request) error {
+func (t *translateBody) Bind(_ *http.Request) error {
 	return validate.Struct(t)
 }
 
@@ -44,5 +44,6 @@ func translate(w http.ResponseWriter, r *http.Request) {
 		render.JSON(w, r, response.Fail(500, err.Error()))
 		return
 	}
+
 	render.JSON(w, r, response.Ok(text))
 }

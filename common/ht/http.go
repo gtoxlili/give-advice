@@ -5,18 +5,33 @@ import (
 	"context"
 	"io"
 	"net/http"
+	"net/url"
 	"time"
 
 	json "github.com/bytedance/sonic"
-	"github.com/gtoxlili/give-advice/common/pool"
+	"github.com/gtoxlili/advice-hub/common/pool"
+	"github.com/gtoxlili/advice-hub/constants"
 )
 
 var (
 	Client = &http.Client{}
 )
 
+func init() {
+	if constants.ProxyAddr != "" {
+		WithProxy(constants.ProxyAddr)
+	}
+}
+
 func WithTimeout(timeout time.Duration) {
 	Client.Timeout = timeout
+}
+
+func WithProxy(proxy string) {
+	proxyUrl, _ := url.Parse(proxy)
+	Client.Transport = &http.Transport{
+		Proxy: http.ProxyURL(proxyUrl),
+	}
 }
 
 type H map[string]string

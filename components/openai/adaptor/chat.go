@@ -5,14 +5,17 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/gtoxlili/give-advice/common/stream"
-	"github.com/gtoxlili/give-advice/common/validate"
-	"github.com/gtoxlili/give-advice/components/openai/completion"
+	"github.com/gtoxlili/advice-hub/common/stream"
+	"github.com/gtoxlili/advice-hub/common/validate"
+	"github.com/gtoxlili/advice-hub/components/openai/completion"
 )
 
+const lastRecords = 5
+
 type ChatDto struct {
-	Topic   string `json:"topic"`
-	Records []struct {
+	Topic    string `json:"topic"`
+	BaseInfo string `json:"baseInfo"`
+	Records  []struct {
 		Q string `json:"q" validate:"required"`
 		A string `json:"a"`
 	} `json:"records" validate:"required"`
@@ -23,14 +26,19 @@ func (dto *ChatDto) Bind(_ *http.Request) error {
 }
 
 func (dto *ChatDto) Completion(ctx context.Context) <-chan stream.Result[string] {
-	msgItems := make([]completion.Message, 0, len(dto.Records))
+	// 仅使用最后 5 条记录
+	l := len(dto.Records) - lastRecords
+	if l < 0 {
+		l = 0
+	}
+	msgItems := make([]completion.Message, 0, l+1)
 	if dto.Topic != "" {
 		msgItems = append(msgItems, completion.Message{
 			Role:    "system",
-			Content: dto.Topic,
+			Content: dto.BaseInfo,
 		})
 	}
-	for _, record := range dto.Records {
+	for _, record := range dto.Records[l:] {
 		msgItems = append(msgItems, completion.Message{
 			Role:    "user",
 			Content: record.Q,

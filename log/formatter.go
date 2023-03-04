@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gtoxlili/give-advice/common/pool"
+	"github.com/gtoxlili/advice-hub/common/pool"
 	"github.com/sirupsen/logrus"
 )
 

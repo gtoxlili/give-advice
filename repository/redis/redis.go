@@ -3,7 +3,7 @@ package redis
 import (
 	"sync"
 
-	"github.com/gtoxlili/give-advice/constants"
+	"github.com/gtoxlili/advice-hub/constants"
 	"github.com/redis/go-redis/v9"
 )
 

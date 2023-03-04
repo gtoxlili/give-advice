@@ -4,7 +4,7 @@ import (
 	"context"
 	"io"
 
-	"github.com/gtoxlili/give-advice/common/pool"
+	"github.com/gtoxlili/advice-hub/common/pool"
 )
 
 func ReadFlow(r io.Reader, end []byte, callback func([]byte) bool) error {

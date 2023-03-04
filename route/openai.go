@@ -10,12 +10,12 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/httprate"
 	"github.com/go-chi/render"
-	"github.com/gtoxlili/give-advice/common/cache"
-	"github.com/gtoxlili/give-advice/common/unsafe"
-	"github.com/gtoxlili/give-advice/components/openai"
-	"github.com/gtoxlili/give-advice/domain/response"
-	m "github.com/gtoxlili/give-advice/middleware"
-	"github.com/gtoxlili/give-advice/middleware/rate"
+	"github.com/gtoxlili/advice-hub/common/cache"
+	"github.com/gtoxlili/advice-hub/common/unsafe"
+	"github.com/gtoxlili/advice-hub/components/openai"
+	"github.com/gtoxlili/advice-hub/domain/response"
+	m "github.com/gtoxlili/advice-hub/middleware"
+	"github.com/gtoxlili/advice-hub/middleware/rate"
 	"github.com/jaevor/go-nanoid"
 )
 

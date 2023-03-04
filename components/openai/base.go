@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/gtoxlili/give-advice/common/stream"
-	"github.com/gtoxlili/give-advice/components/openai/adaptor"
+	"github.com/gtoxlili/advice-hub/common/stream"
+	"github.com/gtoxlili/advice-hub/components/openai/adaptor"
 )
 
 type Adaptor interface {

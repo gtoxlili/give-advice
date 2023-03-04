@@ -5,7 +5,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/gtoxlili/give-advice/common/ht"
+	"github.com/gtoxlili/advice-hub/common/ht"
 )
 
 // AnalysisResult 解析结果
